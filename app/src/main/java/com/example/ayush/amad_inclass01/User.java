@@ -1,10 +1,12 @@
 package com.example.ayush.amad_inclass01;
 
+import java.io.Serializable;
+
 /**
  * Created by ayush on 8/28/2018.
  */
 
-public class User {
+public class User implements Serializable {
     int Age;
     String name;
     int weight;

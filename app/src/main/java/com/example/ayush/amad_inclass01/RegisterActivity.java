@@ -4,7 +4,9 @@ import android.content.Intent;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.PatternMatcher;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,6 +49,16 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (!confirm_pass_ed.getText().toString().matches(pass_ed.getText().toString())) {
                     Toast.makeText(getApplicationContext(), "Passwords dont match", Toast.LENGTH_SHORT).show();
+                } else if (!Patterns.EMAIL_ADDRESS.matcher(username_ed.getText().toString()).matches()) {
+                    Toast.makeText(getApplicationContext(), "Email should be in proper format", Toast.LENGTH_SHORT).show();
+                } else if (username_ed.getText().toString().matches("") ||
+                        pass_ed.getText().toString().matches("") ||
+                        age_ed.getText().toString().matches("") ||
+                        address_ed.getText().toString().matches("") ||
+                        weight_ed.getText().toString().matches("") ||
+                        name_ed.getText().toString().matches("")
+                        ) {
+                    Toast.makeText(getApplicationContext(), "No field should be left blank", Toast.LENGTH_SHORT).show();
                 } else {
                     try {
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -65,38 +66,42 @@ public class MainActivity extends AppCompatActivity {
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!Patterns.EMAIL_ADDRESS.matcher(usernameed.getText().toString()).matches()) {
+                    Toast.makeText(getApplicationContext(), "Email should be in proper format", Toast.LENGTH_SHORT).show();
+                } else if (usernameed.getText().toString().matches("") || passworded.getText().toString().matches("")) {
+                    Toast.makeText(getApplicationContext(), "No field should be blank", Toast.LENGTH_SHORT).show();
+                } else {
+                    String username = usernameed.getText().toString();
+                    String pass = passworded.getText().toString();
 
-                String username = usernameed.getText().toString();
-                String pass = passworded.getText().toString();
+                    user.setUsername(username);
+                    user.setPassword(pass);
 
-                user.setUsername(username);
-                user.setPassword(pass);
+                    try {
+                        String reponse = new Okhttpasynctask().execute().get();
 
-                try {
-                    String reponse = new Okhttpasynctask().execute().get();
-
-                    JSONObject response_data = new JSONObject(reponse);
-                    User user1 = new User();
-                    user1.setName(response_data.getString("name"));
-                    user1.setAddress(response_data.getString("address"));
-                    user1.setUsername(response_data.getString("username"));
-                    user1.setPassword(response_data.getString("password"));
-                    user1.setAge(Integer.parseInt(response_data.getString("age")));
-                    user1.setWeight(Integer.parseInt(response_data.getString("weight")));
+                        JSONObject response_data = new JSONObject(reponse);
+                        User user1 = new User();
+                        user1.setName(response_data.getString("name"));
+                        user1.setAddress(response_data.getString("address"));
+                        user1.setUsername(response_data.getString("username"));
+                        user1.setPassword(response_data.getString("password"));
+                        user1.setAge(Integer.parseInt(response_data.getString("age")));
+                        user1.setWeight(Integer.parseInt(response_data.getString("weight")));
 
 
-                    Intent intent1 = new Intent(MainActivity.this, Profile_Screen.class);
-                    intent1.putExtra("object", user1);
-                    startActivity(intent1);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
+                        Intent intent1 = new Intent(MainActivity.this, Profile_Screen.class);
+                        intent1.putExtra("object", user1);
+                        startActivity(intent1);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+
                 }
-
-
             }
         });
 

@@ -54,31 +54,40 @@ public class Profile_Screen extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                user.setWeight(Integer.parseInt(weight_ed.getText().toString()));
-                user.setPassword(pass_ed.getText().toString());
-                user.setAge(Integer.parseInt(age_ed.getText().toString()));
-                user.setName(name_ed.getText().toString());
-                user.setAddress(address_ed.getText().toString());
+                if (
+                        pass_ed.getText().toString().matches("") ||
+                                age_ed.getText().toString().matches("") ||
+                                address_ed.getText().toString().matches("") ||
+                                weight_ed.getText().toString().matches("") ||
+                                name_ed.getText().toString().matches("")
+                        ) {
+                    Toast.makeText(getApplicationContext(), "No field should be left blank", Toast.LENGTH_SHORT).show();
+                } else {
+                    user.setWeight(Integer.parseInt(weight_ed.getText().toString()));
+                    user.setPassword(pass_ed.getText().toString());
+                    user.setAge(Integer.parseInt(age_ed.getText().toString()));
+                    user.setName(name_ed.getText().toString());
+                    user.setAddress(address_ed.getText().toString());
 
 
-                String reponse = null;
-                try {
-                    reponse = new EditAynctask().execute().get();
-                    JSONObject response_data = new JSONObject(reponse);
+                    String reponse = null;
+                    try {
+                        reponse = new EditAynctask().execute().get();
+                        JSONObject response_data = new JSONObject(reponse);
 
-                    if (Integer.parseInt(response_data.getString("Status")) == 200) {
-                        Toast.makeText(getApplicationContext(), "succesful", Toast.LENGTH_SHORT).show();
+                        if (Integer.parseInt(response_data.getString("Status")) == 200) {
+                            Toast.makeText(getApplicationContext(), "succesful", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
 
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-
-
             }
         });
 

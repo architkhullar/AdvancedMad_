@@ -47,11 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!confirm_pass_ed.getText().toString().matches(pass_ed.getText().toString())) {
-                    Toast.makeText(getApplicationContext(), "Passwords dont match", Toast.LENGTH_SHORT).show();
-                } else if (!Patterns.EMAIL_ADDRESS.matcher(username_ed.getText().toString()).matches()) {
-                    Toast.makeText(getApplicationContext(), "Email should be in proper format", Toast.LENGTH_SHORT).show();
-                } else if (username_ed.getText().toString().matches("") ||
+                if (username_ed.getText().toString().matches("") ||
                         pass_ed.getText().toString().matches("") ||
                         age_ed.getText().toString().matches("") ||
                         address_ed.getText().toString().matches("") ||
@@ -59,7 +55,14 @@ public class RegisterActivity extends AppCompatActivity {
                         name_ed.getText().toString().matches("")
                         ) {
                     Toast.makeText(getApplicationContext(), "No field should be left blank", Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                else if (!confirm_pass_ed.getText().toString().matches(pass_ed.getText().toString())) {
+                    Toast.makeText(getApplicationContext(), "Passwords don't match", Toast.LENGTH_SHORT).show();
+                }
+                else if (!Patterns.EMAIL_ADDRESS.matcher(username_ed.getText().toString()).matches()) {
+                    Toast.makeText(getApplicationContext(), "Email should be in proper format", Toast.LENGTH_SHORT).show();
+                }
+                else {
                     try {
 
                         user.setAddress(address_ed.getText().toString());
@@ -99,8 +102,6 @@ public class RegisterActivity extends AppCompatActivity {
         public final MediaType JSON
                 = MediaType.parse("application/json; charset=utf-8");
 
-        // test data
-
         String doPostRequest(String url) throws IOException, JSONException {
 
             System.out.println(user.getUsername());
@@ -113,8 +114,6 @@ public class RegisterActivity extends AppCompatActivity {
             actualdata.put("name", user.getName());
             RequestBody body = RequestBody.create(JSON, actualdata.toString());
 
-
-            // System.out.println(body);
             Request request = new Request.Builder()
                     .url(url)
                     .addHeader("Content-Type", "application/json")
@@ -130,17 +129,8 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             protected String doInBackground(User... voids) {
                 Signupmain example = new Signupmain();
-               /* String getResponse = null;
-                try {
-                    getResponse = example.doGetRequest("http://www.vogella.com");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                System.out.println(getResponse);
-*/
 
                 // issue the post request
-
                 String postResponse = null;
                 try {
                     postResponse = example.doPostRequest("http://inclass01-env.8f2emn6mpx.us-east-1.elasticbeanstalk.com/webapi/UserService/signup");

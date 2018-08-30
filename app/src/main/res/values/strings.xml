@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">inclass01</string>
+    <string name="signuptv"><u>Sign Up</u></string>
+    <string name="NotRegistered">Not Registered?</string>
+    <string name="name_ed">Your Name</string>
+    <string name="age_ed">Your Age?</string>
+    <string name="address_ed">Your Address</string>
+    <string name="weight_ed">Your Weight in lbs</string>
+    <string name="username_ed">Your username</string>
+    <string name="password_ed">Enter password</string>
+    <string name="confirm_password_ed">Confirm password</string>
+    <string name="login_btn">Register</string>
 </resources>

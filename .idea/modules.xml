@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Inclass01.iml" filepath="$PROJECT_DIR$/Inclass01.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/inclass01.iml" filepath="$PROJECT_DIR$/inclass01.iml" />
+      <module fileurl="file://D:\UNCC\Subjects\Sem 3\Advanced MAD\Projects\Inclass01\app\app.iml" filepath="D:\UNCC\Subjects\Sem 3\Advanced MAD\Projects\Inclass01\app\app.iml" />
     </modules>
   </component>
 </project>

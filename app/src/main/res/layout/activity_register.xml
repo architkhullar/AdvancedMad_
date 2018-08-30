@@ -6,75 +6,75 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <EditText
+        android:id="@+id/name_ed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/name_ed"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
-        android:hint="Your Name"
+        android:hint="@string/name_ed"
         android:inputType="textPersonName" />
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/age_ed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
-        android:hint="Your Age?"
+        android:hint="@string/age_ed"
         android:inputType="number" />
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/address_ed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
-        android:hint="Your Address"
+        android:hint="@string/address_ed"
         android:inputType="text" />
 
     <EditText
+        android:id="@+id/weight_ed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/weight_ed"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
-        android:hint="Your Weight in lbs"
+        android:hint="@string/weight_ed"
         android:inputType="number" />
 
 
     <EditText
+        android:id="@+id/username_ed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/username_ed"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
-        android:hint="Your username"
+        android:hint="@string/username_ed"
         android:inputType="text" />
 
 
     <EditText
+        android:id="@+id/password_ed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/password_ed"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
-        android:hint="Enter password"
+        android:hint="@string/password_ed"
         android:inputType="textPassword" />
 
 
     <EditText
+        android:id="@+id/confirm_password_ed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/confirm_password_ed"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
-        android:hint="Confirm password"
+        android:hint="@string/confirm_password_ed"
         android:inputType="textPassword" />
 
     <Button
+        android:id="@+id/login_btn"
         android:layout_width="150dp"
         android:layout_height="50dp"
-        android:text="Register"
         android:layout_marginTop="50dp"
-        android:id="@+id/login_btn" />
+        android:text="@string/login_btn" />
 </LinearLayout>

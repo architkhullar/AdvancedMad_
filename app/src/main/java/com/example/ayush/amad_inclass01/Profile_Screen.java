@@ -1,8 +1,11 @@
 package com.example.ayush.amad_inclass01;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +31,25 @@ public class Profile_Screen extends AppCompatActivity {
     TextView tv;
 
     User user = new User();
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.logout_action_bar,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.logoutButton)
+        {
+            Intent intent = new Intent( this,MainActivity.class );
+            startActivity(intent);
+            this.finish();
+        }
+
+        return true;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +98,7 @@ public class Profile_Screen extends AppCompatActivity {
                         JSONObject response_data = new JSONObject(reponse);
 
                         if (Integer.parseInt(response_data.getString("Status")) == 200) {
-                            Toast.makeText(getApplicationContext(), "succesful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Information Updated", Toast.LENGTH_SHORT).show();
                         }
 
                     } catch (InterruptedException e) {

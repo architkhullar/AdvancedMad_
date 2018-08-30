@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        
         usernameed = (EditText) findViewById(R.id.username_ed);
         passworded = (EditText) findViewById(R.id.password_ed);
         signuptv = (TextView) findViewById(R.id.signuptv);
@@ -66,10 +66,10 @@ public class MainActivity extends AppCompatActivity {
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!Patterns.EMAIL_ADDRESS.matcher(usernameed.getText().toString()).matches()) {
-                    Toast.makeText(getApplicationContext(), "Email should be in proper format", Toast.LENGTH_SHORT).show();
-                } else if (usernameed.getText().toString().matches("") || passworded.getText().toString().matches("")) {
+                if (usernameed.getText().toString().matches("") || passworded.getText().toString().matches("")) {
                     Toast.makeText(getApplicationContext(), "No field should be blank", Toast.LENGTH_SHORT).show();
+                } else if (!Patterns.EMAIL_ADDRESS.matcher(usernameed.getText().toString()).matches()) {
+                    Toast.makeText(getApplicationContext(), "Email should be in proper format", Toast.LENGTH_SHORT).show();
                 } else {
                     String username = usernameed.getText().toString();
                     String pass = passworded.getText().toString();
@@ -79,9 +79,9 @@ public class MainActivity extends AppCompatActivity {
 
                     try {
                         String reponse = new Okhttpasynctask().execute().get();
-
                         JSONObject response_data = new JSONObject(reponse);
                         User user1 = new User();
+
                         user1.setName(response_data.getString("name"));
                         user1.setAddress(response_data.getString("address"));
                         user1.setUsername(response_data.getString("username"));
@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent1);
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        Toast.makeText( MainActivity.this, "Invalid credentials", Toast.LENGTH_SHORT ).show();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {
@@ -145,8 +146,6 @@ public class MainActivity extends AppCompatActivity {
             actualdata.put("password", user.getPassword());
             RequestBody body = RequestBody.create(JSON, actualdata.toString());
 
-
-            // System.out.println(body);
             Request request = new Request.Builder()
                     .url(url)
                     .addHeader("Content-Type", "application/json")

@@ -1,0 +1,18 @@
+{
+  "name": "userapi",
+  "version": "1.0.0",
+  "description": "\"InClass01 assignemnt for Advanced MAD\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "\"No test commanf\"",
+    "start": "nodemon server.js"
+  },
+  "author": "Group2",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  },
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}

@@ -13,6 +13,15 @@ public class User implements Serializable {
     String address;
     String password;
     String username;
+    long id;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public int getAge() {
         return Age;

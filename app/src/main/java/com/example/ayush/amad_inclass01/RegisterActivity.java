@@ -1,10 +1,8 @@
 package com.example.ayush.amad_inclass01;
 
 import android.content.Intent;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.PatternMatcher;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
 import android.view.View;
@@ -77,6 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
                         String status = (String) response_data.get("status");
                         MainActivity.token = (String) response_data.get("token");
                         if (200 == Integer.parseInt(status)) {
+                            Toast.makeText(getApplicationContext(), "User Registration Successful", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(RegisterActivity.this, Profile_Screen.class);
                             intent.putExtra("object", user);
                             startActivity(intent);
@@ -101,7 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
         OkHttpClient client = new OkHttpClient();
 
         public final MediaType JSON
-                = MediaType.parse("application/x-www-form-urlencoded");
+                = MediaType.parse("application/json");
 
         String doPostRequest(String url) throws IOException, JSONException {
 
@@ -117,7 +116,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             Request request = new Request.Builder()
                     .url(url)
-                    .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                    .addHeader("Content-Type", "application/json")
                     .post(body)
                     .build();
             System.out.println(String.valueOf(request));
@@ -134,7 +133,7 @@ public class RegisterActivity extends AppCompatActivity {
                 // issue the post request
                 String postResponse = null;
                 try {
-                    postResponse = example.doPostRequest("http://inclass01-env.8f2emn6mpx.us-east-1.elasticbeanstalk.com/webapi/UserService/signup");
+                    postResponse = example.doPostRequest("http://ec2-18-216-97-75.us-east-2.compute.amazonaws.com:3000/register");
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {

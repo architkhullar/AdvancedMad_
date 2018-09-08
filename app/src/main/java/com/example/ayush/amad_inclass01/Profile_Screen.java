@@ -55,7 +55,6 @@ public class Profile_Screen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile__screen);
 
-        user = (User) getIntent().getSerializableExtra("object");
         tv = (TextView) findViewById(R.id.textView);
         name_ed = (EditText) findViewById(R.id.name_ed);
         age_ed = (EditText) findViewById(R.id.age_ed);
@@ -67,22 +66,22 @@ public class Profile_Screen extends AppCompatActivity {
         String userdisplay = null;
         try {
             userdisplay = new DisplayAsynctask().execute().get();
+            System.out.println(userdisplay);
             JSONObject response_data = new JSONObject(userdisplay);
-            User user1 = new User();
+            user = new User();
+            user.setName(response_data.getString("name"));
+            user.setAddress(response_data.getString("address"));
+            user.setUsername(response_data.getString("username"));
+            user.setPassword(response_data.getString("password"));
+            user.setAge(Integer.parseInt(response_data.getString("age")));
+            user.setWeight(Integer.parseInt(response_data.getString("weight")));
 
-            user1.setName(response_data.getString("name"));
-            user1.setAddress(response_data.getString("address"));
-            user1.setUsername(response_data.getString("username"));
-            user1.setPassword(response_data.getString("password"));
-            user1.setAge(Integer.parseInt(response_data.getString("age")));
-            user1.setWeight(Integer.parseInt(response_data.getString("weight")));
-
-            name_ed.setText(user1.getName());
-            age_ed.setText(String.valueOf(user1.getAge()));
-            pass_ed.setText(user1.getPassword());
-            weight_ed.setText(String.valueOf(user1.getWeight()));
-            address_ed.setText(String.valueOf(user1.getAddress()));
-            tv.append(user1.getName());
+            name_ed.setText(user.getName());
+            age_ed.setText(String.valueOf(user.getAge()));
+            pass_ed.setText(user.getPassword());
+            weight_ed.setText(String.valueOf(user.getWeight()));
+            address_ed.setText(String.valueOf(user.getAddress()));
+            tv.append(user.getName());
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -138,20 +137,12 @@ public class Profile_Screen extends AppCompatActivity {
     public class EditMain {
         OkHttpClient client = new OkHttpClient();
 
-        // code request code here
-        String doGetRequest(String url) throws IOException {
-            Request request = new Request.Builder()
-                    .url(url)
-                    .build();
 
-            Response response = client.newCall(request).execute();
-            return response.body().string();
-        }
 
         // post request code here
 
         public final MediaType JSON
-                = MediaType.parse("application/json; charset=utf-8");
+                = MediaType.parse("application/json");
 
 
         String doPostRequest(String url) throws IOException, JSONException {
@@ -170,6 +161,7 @@ public class Profile_Screen extends AppCompatActivity {
             Request request = new Request.Builder()
                     .url(url)
                     .addHeader("Content-Type", "application/json")
+                    .addHeader("Authorization", MainActivity.token)
                     .post(body)
                     .build();
             System.out.println(String.valueOf(request));
@@ -186,14 +178,13 @@ public class Profile_Screen extends AppCompatActivity {
 
             String postResponse = null;
             try {
-                postResponse = example.doPostRequest("http://inclass01-env.8f2emn6mpx.us-east-1.elasticbeanstalk.com/webapi/UserService/edit");
+                postResponse = example.doPostRequest("http://ec2-18-216-97-75.us-east-2.compute.amazonaws.com:3000/edit");
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            System.out.println(postResponse);
             return postResponse;
         }
     }
@@ -202,38 +193,28 @@ public class Profile_Screen extends AppCompatActivity {
     public class DisplayMain {
         OkHttpClient client = new OkHttpClient();
 
-        // code request code here
-        String doGetRequest(String url) throws IOException {
-            Request request = new Request.Builder()
-                    .url(url)
-                    .build();
-
-            Response response = client.newCall(request).execute();
-            return response.body().string();
-        }
 
         // post request code here
 
         public final MediaType JSON
-                = MediaType.parse("application/x-www-form-urlencoded");
+                = MediaType.parse("application/json");
 
 
         String doPostRequest(String url) throws IOException, JSONException {
-
             JSONObject actualdata = new JSONObject();
-            actualdata.put("username", user.getUsername());
-            actualdata.put("password", user.getPassword());
+            actualdata.put("name", "");
             RequestBody body = RequestBody.create(JSON, actualdata.toString());
 
+            System.out.println(MainActivity.token + " inside display");
             Request request = new Request.Builder()
                     .url(url)
-                    .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                    .addHeader("Authorization", "Bearer " + MainActivity.token)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Authorization", MainActivity.token)
                     .post(body)
                     .build();
             Response response = client.newCall(request).execute();
 
-            return response.body().toString();
+            return response.body().string();
         }
 
     }
@@ -245,14 +226,14 @@ public class Profile_Screen extends AppCompatActivity {
 
             String postResponse = null;
             try {
-                postResponse = example.doPostRequest("http://inclass01-env.8f2emn6mpx.us-east-1.elasticbeanstalk.com/webapi/UserService/login");
+                postResponse = example.doPostRequest("http://ec2-18-216-97-75.us-east-2.compute.amazonaws.com:3000/display");
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
                 e.printStackTrace();
+
             }
 
-            System.out.println(postResponse);
             return postResponse;
         }
     }

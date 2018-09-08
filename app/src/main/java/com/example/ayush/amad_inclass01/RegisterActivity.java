@@ -74,8 +74,9 @@ public class RegisterActivity extends AppCompatActivity {
                         String reponse = new Signupmain.SignupASynctask().execute(user).get();
 
                         JSONObject response_data = new JSONObject(reponse);
-                        String name = (String) response_data.get("Status");
-                        if (200 == Integer.parseInt(name)) {
+                        String status = (String) response_data.get("status");
+                        MainActivity.token = (String) response_data.get("token");
+                        if (200 == Integer.parseInt(status)) {
                             Intent intent = new Intent(RegisterActivity.this, Profile_Screen.class);
                             intent.putExtra("object", user);
                             startActivity(intent);
@@ -100,7 +101,7 @@ public class RegisterActivity extends AppCompatActivity {
         OkHttpClient client = new OkHttpClient();
 
         public final MediaType JSON
-                = MediaType.parse("application/json; charset=utf-8");
+                = MediaType.parse("application/x-www-form-urlencoded");
 
         String doPostRequest(String url) throws IOException, JSONException {
 
@@ -116,7 +117,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             Request request = new Request.Builder()
                     .url(url)
-                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Content-Type", "application/x-www-form-urlencoded")
                     .post(body)
                     .build();
             System.out.println(String.valueOf(request));

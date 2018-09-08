@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     Button login_btn;
     User user = new User();
 
+    protected static String token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         passworded = (EditText) findViewById(R.id.password_ed);
         signuptv = (TextView) findViewById(R.id.signuptv);
         login_btn = (Button) findViewById(R.id.login_btn);
+
 
 
         login_btn.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
         // post request code here
 
         public final MediaType JSON
-                = MediaType.parse("application/json; charset=utf-8");
+                = MediaType.parse("application/x-www-form-urlencoded");
 
 
         String doPostRequest(String url) throws IOException, JSONException {
@@ -148,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
 
             Request request = new Request.Builder()
                     .url(url)
-                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Content-Type", "application/x-www-form-urlencoded")
                     .post(body)
                     .build();
             System.out.println(String.valueOf(request));

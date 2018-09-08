@@ -64,14 +64,33 @@ public class Profile_Screen extends AppCompatActivity {
         address_ed = (EditText) findViewById(R.id.address_ed);
         submit = (Button) findViewById(R.id.submit_button);
 
-        System.out.println(user.toString());
-        name_ed.setText(user.getName());
-        age_ed.setText(String.valueOf(user.getAge()));
-        pass_ed.setText(user.getPassword());
-        weight_ed.setText(String.valueOf(user.getWeight()));
-        address_ed.setText(String.valueOf(user.getAddress()));
-        tv.append(user.getName());
+        String userdisplay = null;
+        try {
+            userdisplay = new DisplayAsynctask().execute().get();
+            JSONObject response_data = new JSONObject(userdisplay);
+            User user1 = new User();
 
+            user1.setName(response_data.getString("name"));
+            user1.setAddress(response_data.getString("address"));
+            user1.setUsername(response_data.getString("username"));
+            user1.setPassword(response_data.getString("password"));
+            user1.setAge(Integer.parseInt(response_data.getString("age")));
+            user1.setWeight(Integer.parseInt(response_data.getString("weight")));
+
+            name_ed.setText(user1.getName());
+            age_ed.setText(String.valueOf(user1.getAge()));
+            pass_ed.setText(user1.getPassword());
+            weight_ed.setText(String.valueOf(user1.getWeight()));
+            address_ed.setText(String.valueOf(user1.getAddress()));
+            tv.append(user1.getName());
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +116,7 @@ public class Profile_Screen extends AppCompatActivity {
                         reponse = new EditAynctask().execute().get();
                         JSONObject response_data = new JSONObject(reponse);
 
-                        if (Integer.parseInt(response_data.getString("Status")) == 200) {
+                        if (Integer.parseInt(response_data.getString("status")) == 200) {
                             Toast.makeText(getApplicationContext(), "Information Updated", Toast.LENGTH_SHORT).show();
                         }
 
@@ -168,6 +187,65 @@ public class Profile_Screen extends AppCompatActivity {
             String postResponse = null;
             try {
                 postResponse = example.doPostRequest("http://inclass01-env.8f2emn6mpx.us-east-1.elasticbeanstalk.com/webapi/UserService/edit");
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println(postResponse);
+            return postResponse;
+        }
+    }
+
+    ///Test Commit
+    public class DisplayMain {
+        OkHttpClient client = new OkHttpClient();
+
+        // code request code here
+        String doGetRequest(String url) throws IOException {
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            return response.body().string();
+        }
+
+        // post request code here
+
+        public final MediaType JSON
+                = MediaType.parse("application/x-www-form-urlencoded");
+
+
+        String doPostRequest(String url) throws IOException, JSONException {
+
+            JSONObject actualdata = new JSONObject();
+            actualdata.put("username", user.getUsername());
+            actualdata.put("password", user.getPassword());
+            RequestBody body = RequestBody.create(JSON, actualdata.toString());
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                    .addHeader("Authorization", "Bearer " + MainActivity.token)
+                    .post(body)
+                    .build();
+            Response response = client.newCall(request).execute();
+
+            return response.body().toString();
+        }
+
+    }
+
+    private class DisplayAsynctask extends AsyncTask<Void, Void, String> {
+        @Override
+        protected String doInBackground(Void... voids) {
+            DisplayMain example = new DisplayMain();
+
+            String postResponse = null;
+            try {
+                postResponse = example.doPostRequest("http://inclass01-env.8f2emn6mpx.us-east-1.elasticbeanstalk.com/webapi/UserService/login");
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
